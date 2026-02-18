@@ -1,0 +1,32 @@
+.search-city {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.search-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.search-input-wrap {
+  position: relative;
+}
+
+.search-input-wrap .icon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: 36px;
+}
+
+.search-select {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

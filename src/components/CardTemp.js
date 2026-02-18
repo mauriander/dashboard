@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 //import  Data  from "../api.json";
@@ -56,10 +56,10 @@ const RightColumn = styled.div`
 function CardTemp({Data}) {
   //Maximo
  // const maxTemperatura = Math.max(...UserData.map((data) => data.temperatura));
-  const [maximo, setMaximo] = useState(Data.daily.temperature_2m_max[0]);
+  const maximo = Data.daily.temperature_2m_max[0];
   //Minimo
   //const minTemperatura = Math.min(...UserData.map((data) => data.temperatura));
-  const [minimo, setMinimo] = useState(Data.daily.temperature_2m_min[0]);
+  const minimo = Data.daily.temperature_2m_min[0];
 
 
   return (

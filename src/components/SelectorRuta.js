@@ -9,8 +9,8 @@ function SelectorRuta({ onRouteChange }) {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const CLIENT_ID = "cb6b18c84b3b484d98018a791577af52";
-  const CLIENT_SECRET = "3e3DB105Fbf642Bf88d5eeB8783EE1E6";
+  const CLIENT_ID = process.env.REACT_APP_TRANSPORT_CLIENT_ID || "";
+  const CLIENT_SECRET = process.env.REACT_APP_TRANSPORT_CLIENT_SECRET || "";
 
 
   useEffect(() => {

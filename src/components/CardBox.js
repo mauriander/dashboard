@@ -36,13 +36,6 @@ const Card = styled.div`
     margin: 6px;
   }
 `;
-const Barradiv = styled.div`
-  place-items: center;
-  width: 160px;
-  height: 90px;
-  border-radius: 5%;
-  border-radius: 16px;
-`;
 const Numero = styled.h3`
   font-weight: bold;
   color: purple;
@@ -77,7 +70,6 @@ function CardBox({Data}) {
   const [usersriseData, setUsersriseData] = useState(null);
   const [usersrssetData, setUserssetData] = useState(0);
   const [usersppData, setUserppData] = useState(0);
-  const [horaData, setHoraData] = useState(0);
 
   const [userwvDatac, setUserwvDatac] = useState('');
    const [userwvDatad, setUserwvDatad] = useState('');
@@ -97,19 +89,12 @@ function CardBox({Data}) {
   // }, []);
 
   useEffect(() => {
-    setHoraData(+Data.current_weather.time.slice(11, 13));
-      console.log('adentro Hora de set'+horaData);
-
       const hora= +Data.current_weather.time.slice(11, 13);
-       console.log('adentro Hora const'+hora);
      if (Data) {
       
    
       
       
-      const averageRelativeHumidity =
-        Data.hourly.relativehumidity_2m.reduce((acc, value) => acc + value, 0) /
-        Data.hourly.relativehumidity_2m.length;
       setUserhData(Data.hourly.relativehumidity_2m[hora]);
 
       //wv wind velocity
@@ -119,9 +104,6 @@ function CardBox({Data}) {
 
 
       //v visibility
-      const averageVisibility =
-        Data.hourly.visibility.reduce((acc, value) => acc + value, 0) /
-        Data.hourly.visibility.length;
       setUservData((Data.hourly.visibility[hora] / 1000).toFixed(1));
 
 
@@ -142,29 +124,6 @@ setUserppData( Data.hourly.precipitation_probability[hora]);
    }
 
   //aq air quality
-
-  // //Valor lo asigno en un calculo promedio
-  //  const valor =(Data.hourly.european_aqi.reduce((acc, value) => acc + value, 0) /
-  //      Data.hourly.european_aqi.length).toFixed(0);
-   const valor = 65;
-   const rangeMappings = {
-     "0-50": ["Buena", "green"],
-     "51-100": ["Moderada", "yellow"],
-   "101-150": ["Insalubre para grupos sensibles", "orange"],
-   "151-200": ["Insalubre", "red"],
-  "201-300": ["Muy insalubre", "gray"],
-   "301-500": ["Peligrosa", "black"],
- }
-   function codificarCalidadDelAire(valor) {
-     for (const rango in rangeMappings) {
-       const [descripcion, color] = rangeMappings[rango];
-     const [min, max] = rango.split("-").map(Number);
-       if (valor >= min && valor <= max) {
-         return [valor, descripcion, color];
-       }
-     }
-   }
-
 
     const rangeMappingsViento = {
      "0-5": ["Brisas suaves","yellow"],

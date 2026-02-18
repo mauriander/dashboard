@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Icon } from "react-leaflet";
-import SelectorRuta from "./SelectorRuta";
-import {  FaBusAlt,  FaBus,   FaInfo,  FaRoad,  FaMarker,  FaDirections,  FaTachometerAlt,  FaMapMarker,  FaMapMarked,} from "react-icons/fa";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { FaBus, FaInfo, FaRoad, FaDirections, FaTachometerAlt, FaMapMarker, FaMapMarked } from "react-icons/fa";
 import L from "leaflet";
-import ReactDOMServer from 'react-dom/server';
 import busIcono from "../img/bus-svgrepo-com.svg";
 
 function Transport({ ruta }) {
@@ -12,8 +10,8 @@ function Transport({ ruta }) {
   const [longcenter, setLongCenter] = useState(-58.479999);
   const [mapKey, setMapKey] = useState(0);
 
-  const CLIENT_ID = "cb6b18c84b3b484d98018a791577af52";
-  const CLIENT_SECRET = "3e3DB105Fbf642Bf88d5eeB8783EE1E6";
+  const CLIENT_ID = process.env.REACT_APP_TRANSPORT_CLIENT_ID || "";
+  const CLIENT_SECRET = process.env.REACT_APP_TRANSPORT_CLIENT_SECRET || "";
   const ROUTE_ID = "1468";
 
   const fetchTransportData = () => {
@@ -66,7 +64,6 @@ function Transport({ ruta }) {
 //    iconSize: [50, 82],
 //    iconAnchor: [24, 82],
 //  });
-const busIconHtml = ReactDOMServer.renderToString(<img width="18" height="18" src="https://img.icons8.com/color/48/bus.png" alt="bus"/>);
 const busIcon = new L.divIcon({
   className: 'custom-icon',
   html: `<img src="${busIcono}" width="16" height="16" alt="bus" />`,

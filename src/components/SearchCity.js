@@ -4,7 +4,6 @@ import { FaSearch } from 'react-icons/fa';
 function SearchCity({ onLocationSearch}) {
   const [namesearch, setNamesearch] = useState('');
   const [results, setResults] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const url = 'https://geocoding-api.open-meteo.com/v1/search?count=40&language=es&format=json';
 
@@ -20,7 +19,6 @@ function SearchCity({ onLocationSearch}) {
   }, [namesearch]);
 
 const handleSelectLocation = (location) => {
-  setSelectedLocation(location);
   setNamesearch(`${location.name}, ${location.admin1}, ${location.country_code}`);
   setResults([]);
   onLocationSearch(location); // Llama a la función con la ubicación seleccionada

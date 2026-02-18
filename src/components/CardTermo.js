@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import Gauge from "react-canvas-gauge";
 import CardTemp from "./CardTemp";
 import {
   FaArrowDown,
-  FaArrowLeft,
-  FaArrowRight,
-  FaArrowUp,
   FaCalendar,
   FaClock,
-  FaMapMarked,
   FaMapMarker,
-  FaMarker,
-  FaRegHeart,
-  FaThermometer,
   FaThermometerQuarter,
   FaWind,
 } from "react-icons/fa";
+import { Progress } from "rsuite";
+import "rsuite/dist/rsuite.min.css";
 import CodigoClima from "../imgclima.json";
 
 const Termo2 = styled.div`
@@ -70,33 +64,9 @@ const Termo = styled.div`
     align-items: center;
   }
 `;
-const ImagenClima = styled.div`
-  width: 15vh;
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 32px;
-`;
-
-const P = styled.p`
-  width: 15vh;
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 32px;
-`;
-
 const Temperatura = styled.div`
   ${"" /* position: absolute; */}
   text-align: center;
-`;
-
-const Imagen = styled.div`
-  width: 116px;
-  height: 116px;
-  position: absolute;
 `;
 
 const Ciudad = styled.div`
@@ -114,16 +84,11 @@ function CardTermo({ Data, city }) {
   //   UserData.length;
   // const [promedio, setPromedio] = useState(promedioTemperatura.toFixed(0));
   // de api josn
-  const temperaturaactual = Data.current_weather.temperature;
-  // const [tempact, setTempact] = useState(temperaturaactual.toFixed(1));
-  const [tempact, setTempact] = useState(
-    Data.current_weather.temperature.toFixed(1)
-  );
-  const [wind, setWind] = useState(Data.current_weather.windspeed.toFixed(1));
-  const [windd, setWindd] = useState(
-    Data.current_weather.winddirection.toFixed(0)
-  );
-  const [hora, setHora] = useState(Data.current_weather.time.slice(11, 16));
+  const tempact = Data.current_weather.temperature.toFixed(1);
+  const tempPercent = ((Number(tempact) + 15) * 100) / 60;
+  const wind = Data.current_weather.windspeed.toFixed(1);
+  const windd = Data.current_weather.winddirection.toFixed(0);
+  const hora = Data.current_weather.time.slice(11, 16);
   //const [ciudad, setCiudad] = useState("Ubicacion Actual");
 
   const ciudad=city;
@@ -159,21 +124,18 @@ function CardTermo({ Data, city }) {
 
   return (
     <Termo >
-      <Gauge
-        mode="gauge"
-        size={150}
-        enableAnimation={true}
-        animationTimeout={250}
-        title="Temp."
-        unit={decodeURI("%C2%B0C")}
-        minValue={-15}
-        value={tempact}
-        scaleList={[
-          { scale: 5, quantity: 4, startColor: "#2e86c1", endColor: "#7dcea0" }, // Azul a Verde
-          { scale: 5, quantity: 4, startColor: "#7dcea0", endColor: "#f7dc6f" }, // Verde a Amarillo
-          { scale: 5, quantity: 4, startColor: "#f7dc6f", endColor: "#ff4e50" }, // Amarillo a Rojo
-        ]}
+      <h6 style={{ margin: "0px" }}>Temp.</h6>
+      <Progress.Circle
+        percent={Math.max(0, Math.min(100, tempPercent))}
+        strokeColor="#7dcea0"
+        trailColor="rgba(255,255,255,0.2)"
+        strokeWidth={8}
+        showInfo={false}
       />
+      <p style={{ margin: "0px" }}>
+        {tempact}
+        {decodeURI("%C2%B0C")}
+      </p>
       <Ciudad>
         <FaMapMarker />
         {ciudad}
