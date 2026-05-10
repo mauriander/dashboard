@@ -1,6 +1,8 @@
 .dashboard-root {
   min-height: 100vh;
-  background: var(--color-bg);
+  background:
+    radial-gradient(circle at 16% 12%, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 28%),
+    linear-gradient(145deg, var(--color-bg), color-mix(in srgb, var(--color-bg) 82%, var(--color-surface-strong)));
   color: var(--color-text);
   padding: clamp(var(--space-3), 2.2vw, var(--space-6));
 }
@@ -11,26 +13,11 @@
 
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: var(--space-4);
-  margin-bottom: var(--space-4);
-}
-
-.dashboard-brand {
-  min-width: 0;
-}
-
-.dashboard-title {
-  margin: 0;
-  font-size: clamp(1.15rem, 1.5vw, 1.6rem);
-  letter-spacing: -0.02em;
-}
-
-.dashboard-subtitle {
-  margin: var(--space-1) 0 0;
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
+  min-height: 44px;
+  margin-bottom: var(--space-3);
 }
 
 .dashboard-actions {
@@ -48,10 +35,11 @@
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(380px, 42%);
+  grid-template-columns: minmax(270px, 320px) minmax(430px, 1fr) minmax(500px, 0.95fr);
   grid-template-areas: "left center right";
   gap: var(--space-4);
   align-items: stretch;
+  overflow: hidden;
 }
 
 .dashboard-column {
@@ -59,6 +47,7 @@
   display: grid;
   gap: var(--space-4);
   align-content: start;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -113,7 +102,7 @@
 }
 
 .transport-map-slot {
-  height: clamp(340px, 68vh, 800px);
+  height: clamp(420px, 68vh, 780px);
 }
 
 .map-container {
@@ -163,6 +152,24 @@
   gap: var(--space-3);
 }
 
+.mobile-weather-summary {
+  display: none;
+}
+
+@media (max-width: 1399px) {
+  .dashboard-grid,
+  .loading-grid {
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    grid-template-areas:
+      "left center"
+      "right right";
+  }
+
+  .transport-map-slot {
+    height: clamp(420px, 58vh, 680px);
+  }
+}
+
 @media (max-width: 1199px) {
   .dashboard-grid,
   .loading-grid {
@@ -196,10 +203,6 @@
     flex-wrap: wrap;
   }
 
-  .dashboard-brand {
-    width: 100%;
-  }
-
   .dashboard-actions {
     width: 100%;
     display: flex;
@@ -217,6 +220,14 @@
 
   .dashboard-column {
     gap: var(--space-3);
+  }
+
+  .mobile-weather-summary {
+    display: block;
+  }
+
+  .sidebar-weather-summary {
+    display: none;
   }
 
   .dashboard-column.left {

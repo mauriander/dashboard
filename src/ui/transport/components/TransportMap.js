@@ -7,7 +7,7 @@ import { averageCoordinates } from "../../../core/utils/geo";
 import { APP_CONFIG } from "../../../config/app";
 import { RADAR_CONFIG } from "../../../config/api";
 import { fetchTransportByRoute } from "../services/transportService";
-import { fetchRadarFramesLast12h, fetchPrecipitationForecastFrames } from "../radar/radarProvider";
+import { fetchRadarFramesLast12h, fetchPrecipitationForecastFrames, WEATHER_LAYER_METADATA } from "../radar/radarProvider";
 import RecenterMap from "./RecenterMap";
 import MapLayerToggle from "./MapLayerToggle";
 import RadarLayer from "./RadarLayer";
@@ -150,10 +150,10 @@ function TransportMap({ ruta }) {
         }
         console.error(error);
         if (mapMode === "forecast" && String(error?.message || "").includes("Missing OpenWeather API key")) {
-          setLayerError("Pronóstico no disponible: falta REACT_APP_OPENWEATHER_TILE_API_KEY");
+          setLayerError("Pronóstico beta no disponible con la API key actual");
           return;
         }
-        setLayerError(mapMode === "forecast" ? "Pronóstico no disponible" : "Radar no disponible");
+        setLayerError(mapMode === "forecast" ? "Pronóstico beta no disponible con la API key actual" : "Radar de lluvia beta no disponible");
       })
       .finally(() => {
         if (isCancelled) {
@@ -262,9 +262,11 @@ function TransportMap({ ruta }) {
 
   const hasTransport = transportData.length > 0;
   const activeLayerFrame = layerFrames[frameIndex];
+  const activeLayerMetadata = WEATHER_LAYER_METADATA[mapMode] || WEATHER_LAYER_METADATA.map;
   const currentRadarLabel = activeLayerFrame?.label || "--:--";
   const showLayerControls = mapMode !== "map" && !isLayerLoading && !layerError;
-  const overlayLoadingLabel = mapMode === "forecast" ? "Cargando pronóstico..." : "Cargando radar...";
+  const overlayLoadingLabel = mapMode === "forecast" ? "Cargando pronóstico de lluvia beta..." : "Cargando radar de lluvia beta...";
+  const betaLayerHint = activeLayerMetadata.isBeta ? `Beta: disponibilidad sujeta al proveedor · ${activeLayerMetadata.source}` : "";
 
   return (
     <div className="transport-map-frame mapPanel" aria-label="Mapa de transporte">
@@ -326,6 +328,7 @@ function TransportMap({ ruta }) {
 
       <div className="map-overlay-top">
         <MapLayerToggle mapMode={mapMode} onChange={handleModeChange} />
+        {betaLayerHint ? <p className="map-beta-note">{betaLayerHint}</p> : null}
       </div>
 
       {mapMode !== "map" && isLayerLoading ? (

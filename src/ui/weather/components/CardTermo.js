@@ -4,7 +4,7 @@ import { Progress } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import { getDayOfMonth, getHourMinute, getWeekdayName } from "../../../core/utils/dateTime";
 import CardTemp from "./CardTemp";
-import CodigoClima from "../../../imgclima.json";
+import { getWeatherPresentation } from "../utils/weatherPresentation";
 import "./weather.css";
 
 function CardTermo({ Data, city }) {
@@ -15,14 +15,15 @@ function CardTermo({ Data, city }) {
   const hora = getHourMinute(Data.current_weather.time);
 
   const ciudad = city || "Ubicación actual";
-  const currentIcon = CodigoClima[Data.current_weather.weathercode]?.icons;
+  const currentWeather = getWeatherPresentation(Data.current_weather.weathercode, Data.current_weather.is_day !== 0);
+  const CurrentWeatherIcon = currentWeather.Icon;
 
   const forecast = [1, 2, 3, 4, 5, 6].map((index) => ({
     dayName: getWeekdayName(Data.daily.time[index]),
     dayNumber: getDayOfMonth(Data.daily.time[index]),
     max: Data.daily.temperature_2m_max[index].toFixed(0),
     min: Data.daily.temperature_2m_min[index].toFixed(0),
-    icon: CodigoClima[Data.daily.weathercode[index]]?.icons,
+    weather: getWeatherPresentation(Data.daily.weathercode[index], true),
   }));
 
   return (
@@ -63,20 +64,24 @@ function CardTermo({ Data, city }) {
           </p>
         </div>
 
-        {currentIcon ? <img src={currentIcon} alt="Estado del clima actual" className="weather-main-icon" /> : null}
+        <CurrentWeatherIcon className="weather-main-icon weather-main-symbol" aria-label={currentWeather.label} />
       </div>
 
       <div className="forecast-grid" aria-label="Pronóstico próximos días">
-        {forecast.map((item, index) => (
-          <article className="forecast-item" key={`forecast-${index}`}>
-            <p className="metric-subtext">
-              <FaCalendar aria-hidden="true" /> {item.dayName} {item.dayNumber}
-            </p>
-            {item.icon ? <img src={item.icon} alt={`Pronóstico ${item.dayName} ${item.dayNumber}`} /> : null}
-            <p className="forecast-range">↑ {item.max}º</p>
-            <p className="forecast-range">↓ {item.min}º</p>
-          </article>
-        ))}
+        {forecast.map((item, index) => {
+          const ForecastIcon = item.weather.Icon;
+
+          return (
+            <article className="forecast-item" key={`forecast-${index}`}>
+              <p className="metric-subtext">
+                <FaCalendar aria-hidden="true" /> {item.dayName} {item.dayNumber}
+              </p>
+              <ForecastIcon className="forecast-weather-icon" aria-label={item.weather.label} />
+              <p className="forecast-range">↑ {item.max}º</p>
+              <p className="forecast-range">↓ {item.min}º</p>
+            </article>
+          );
+        })}
       </div>
 
       <CardTemp Data={Data} />

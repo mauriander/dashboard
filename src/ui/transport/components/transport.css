@@ -28,6 +28,9 @@
   right: var(--space-3);
   z-index: 550;
   pointer-events: none;
+  display: grid;
+  justify-items: end;
+  gap: var(--space-2);
 }
 
 .map-overlay-bottom {
@@ -77,6 +80,30 @@
   border: 1px solid var(--color-border);
   background: var(--card-glass);
   backdrop-filter: blur(8px);
+}
+
+.chip-beta {
+  margin-left: var(--space-2);
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-warning) 26%, transparent);
+  color: var(--color-text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.map-beta-note {
+  margin: 0;
+  max-width: 280px;
+  padding: 6px var(--space-2);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--card-glass);
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  text-align: right;
+  backdrop-filter: blur(10px);
 }
 
 .radar-controls {
@@ -206,12 +233,24 @@
 
   .map-layer-toggle {
     gap: var(--space-1);
+    justify-content: flex-end;
   }
 
   .map-layer-toggle .chip {
     min-height: 36px;
-    padding: 6px var(--space-3);
-    font-size: 0.82rem;
+    padding: 6px var(--space-2);
+    font-size: 0.78rem;
+  }
+
+  .chip-beta {
+    margin-left: var(--space-1);
+    padding: 1px 5px;
+    font-size: 0.62rem;
+  }
+
+  .map-beta-note {
+    max-width: min(82vw, 260px);
+    font-size: 0.72rem;
   }
 
   .radar-controls {

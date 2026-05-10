@@ -1,32 +1,27 @@
 import React from "react";
+import { WEATHER_LAYER_METADATA } from "../radar/radarProvider";
+
+const layerOrder = ["map", "radar", "forecast"];
 
 function MapLayerToggle({ mapMode, onChange }) {
   return (
     <div className="map-layer-toggle" role="group" aria-label="Alternar capas del mapa">
-      <button
-        type="button"
-        className={`chip ${mapMode === "map" ? "active" : ""}`}
-        onClick={() => onChange("map")}
-        aria-pressed={mapMode === "map"}
-      >
-        Mapa
-      </button>
-      <button
-        type="button"
-        className={`chip ${mapMode === "radar" ? "active" : ""}`}
-        onClick={() => onChange("radar")}
-        aria-pressed={mapMode === "radar"}
-      >
-        Radar (pasado)
-      </button>
-      <button
-        type="button"
-        className={`chip ${mapMode === "forecast" ? "active" : ""}`}
-        onClick={() => onChange("forecast")}
-        aria-pressed={mapMode === "forecast"}
-      >
-        Pronóstico
-      </button>
+      {layerOrder.map((layerId) => {
+        const layer = WEATHER_LAYER_METADATA[layerId];
+
+        return (
+          <button
+            key={layer.id}
+            type="button"
+            className={`chip ${mapMode === layer.id ? "active" : ""}`}
+            onClick={() => onChange(layer.id)}
+            aria-pressed={mapMode === layer.id}
+          >
+            {layer.label}
+            {layer.isBeta ? <span className="chip-beta">Beta</span> : null}
+          </button>
+        );
+      })}
     </div>
   );
 }

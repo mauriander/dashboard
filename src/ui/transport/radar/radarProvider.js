@@ -3,6 +3,36 @@ import { API_KEYS, RADAR_CONFIG } from "../../../config/api";
 const MAX_FRAMES = 36;
 const FORECAST_STEP_HOURS = 3;
 
+export const WEATHER_LAYER_METADATA = {
+  map: {
+    id: "map",
+    label: "Mapa",
+    kind: "base",
+    isBeta: false,
+    source: "OpenStreetMap",
+    horizonLabel: "",
+    requiresKey: false,
+  },
+  radar: {
+    id: "radar",
+    label: "Radar lluvia",
+    kind: "observed-rain",
+    isBeta: true,
+    source: "RainViewer",
+    horizonLabel: "Radar observado · Últimas 2h",
+    requiresKey: false,
+  },
+  forecast: {
+    id: "forecast",
+    label: "Pronóstico lluvia",
+    kind: "forecast-rain",
+    isBeta: true,
+    source: "OpenWeather",
+    horizonLabel: `Modelo de lluvia · Próximas ${RADAR_CONFIG.forecastHours}h`,
+    requiresKey: true,
+  },
+};
+
 // Proveedores evaluados para Leaflet radar overlay:
 // 1) RainViewer (elegido): API pública simple, sin SDK pesado.
 // 2) OpenWeather Maps (capas precipitación, requiere API key).
@@ -66,7 +96,7 @@ export async function fetchRadarFramesLast12h({ signal } = {}) {
 
   return {
     provider: "RainViewer",
-    horizonLabel: "Últimas 2h",
+    horizonLabel: WEATHER_LAYER_METADATA.radar.horizonLabel,
     frames: mappedFrames,
     latestTimestamp,
   };
@@ -108,7 +138,7 @@ export async function fetchPrecipitationForecastFrames({ hours = 12 } = {}) {
 
   return {
     provider: "OpenWeather Maps",
-    horizonLabel: `Próximas ${hours}h`,
+    horizonLabel: `Modelo de lluvia · Próximas ${hours}h`,
     frames,
     latestTimestamp: frames[frames.length - 1]?.timestamp || baseTimestamp,
   };

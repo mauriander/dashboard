@@ -15,7 +15,7 @@ function DashboardPage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [uData, setUData] = useState(null);
   const [Data, setData] = useState(null);
-  const [city, setCity] = useState(null);
+  const [city, setCity] = useState(APP_CONFIG.defaultWeatherLocationLabel);
   const [rutaid, setRutaId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isLocating, setIsLocating] = useState(false);
@@ -30,16 +30,25 @@ function DashboardPage() {
     setRutaId(selectedRouteID);
   };
 
-  const loadWeatherData = useCallback(async (latitude, longitude) => {
+  const loadWeatherData = useCallback(async (latitude, longitude, fallbackCity = APP_CONFIG.defaultWeatherLocationLabel) => {
     setWeatherError("");
 
     try {
-      const [weatherData, cityName] = await Promise.all([
-        fetchWeatherByCoordinates(latitude, longitude),
-        fetchCityNameByCoordinates(latitude, longitude),
-      ]);
+      const weatherData = await fetchWeatherByCoordinates(latitude, longitude);
       setData(weatherData);
-      setCity(cityName);
+      setCity(fallbackCity);
+
+      if (fallbackCity !== APP_CONFIG.defaultWeatherLocationLabel) {
+        fetchCityNameByCoordinates(latitude, longitude)
+          .then((cityName) => {
+            if (cityName) {
+              setCity(cityName);
+            }
+          })
+          .catch((error) => {
+            console.warn("No pudimos resolver el nombre de la ciudad.", error);
+          });
+      }
     } catch (error) {
       console.error(error);
       setWeatherError("No pudimos actualizar el clima. Reintentá en unos segundos.");
@@ -50,13 +59,18 @@ function DashboardPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    loadWeatherData(APP_CONFIG.defaultWeatherCoordinates.latitude, APP_CONFIG.defaultWeatherCoordinates.longitude);
+    loadWeatherData(
+      APP_CONFIG.defaultWeatherCoordinates.latitude,
+      APP_CONFIG.defaultWeatherCoordinates.longitude,
+      APP_CONFIG.defaultWeatherLocationLabel
+    );
   }, [loadWeatherData]);
 
   const handleLocationSearch = (selectedLocation) => {
     setIsLoading(true);
     setIsSidebarOpen(false);
-    loadWeatherData(selectedLocation.latitude, selectedLocation.longitude);
+    const locationLabel = [selectedLocation.name, selectedLocation.admin1, selectedLocation.country_code].filter(Boolean).join(", ");
+    loadWeatherData(selectedLocation.latitude, selectedLocation.longitude, locationLabel);
   };
 
   const handleUseCurrentLocation = () => {
@@ -71,7 +85,7 @@ function DashboardPage() {
       (position) => {
         const { latitude, longitude } = position.coords;
         setIsLoading(true);
-        loadWeatherData(latitude, longitude).finally(() => {
+        loadWeatherData(latitude, longitude, "Ubicación actual").finally(() => {
           setIsLocating(false);
         });
       },
@@ -95,10 +109,6 @@ function DashboardPage() {
   return (
     <div className="dashboard-root app-shell" data-theme={isDarkMode ? "dark" : "light"}>
       <header className="dashboard-header">
-        <div className="dashboard-brand">
-          <h1 className="dashboard-title">Weather + Transit Dashboard</h1>
-          <p className="dashboard-subtitle">Condiciones actuales, pronóstico y transporte en una sola vista.</p>
-        </div>
         <div className="dashboard-actions">
           <button
             className="btn btn-ghost mobile-nav-toggle"
@@ -164,13 +174,19 @@ function DashboardPage() {
                   </div>
                   <div className="stack">
                     <SearchCity onLocationSearch={handleLocationSearch} />
-                    <CardTermo Data={Data} city={city} />
+                    <div className="sidebar-weather-summary">
+                      <CardTermo Data={Data} city={city} />
+                    </div>
                   </div>
                 </div>
               </section>
             </aside>
 
             <section className="dashboard-column center">
+              <div className="mobile-weather-summary">
+                <CardTermo Data={Data} city={city} />
+              </div>
+
               <section className="card card-strong panel">
                 <div className="panel-heading">
                   <h2 className="panel-title">Tendencia térmica</h2>

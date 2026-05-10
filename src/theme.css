@@ -15,9 +15,9 @@
   --radius-lg: 18px;
   --radius-xl: 24px;
 
-  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.1);
-  --shadow-lg: 0 14px 40px rgba(15, 23, 42, 0.14);
+  --shadow-sm: 0 4px 18px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 14px 34px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 22px 58px rgba(15, 23, 42, 0.18);
 
   --transition-fast: 140ms ease;
   --transition-base: 220ms ease;
@@ -25,9 +25,9 @@
 
 [data-theme="light"] {
   --color-bg: #f7ebc2;
-  --color-surface: rgba(255, 255, 255, 0.55);
-  --color-surface-strong: #ffffff;
-  --color-surface-alt: #fff7d6;
+  --color-surface: rgba(255, 255, 255, 0.42);
+  --color-surface-strong: rgba(255, 255, 255, 0.72);
+  --color-surface-alt: rgba(255, 247, 214, 0.58);
   --color-text: #1e293b;
   --color-text-muted: #475569;
   --color-border: rgba(30, 41, 59, 0.12);
@@ -39,7 +39,7 @@
   --color-danger: #dc2626;
   --color-focus: rgba(234, 179, 8, 0.35);
 
-  --card-glass: rgba(255, 255, 255, 0.5);
+  --card-glass: rgba(255, 255, 255, 0.38);
 }
 
 [data-theme="dark"] {
@@ -58,7 +58,7 @@
   --color-danger: #f87171;
   --color-focus: rgba(244, 197, 66, 0.35);
 
-  --card-glass: rgba(255, 255, 255, 0.1);
+  --card-glass: rgba(255, 255, 255, 0.12);
 }
 
 * {
@@ -126,6 +126,7 @@ textarea {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(14px) saturate(145%);
   transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-fast);
 }
 
@@ -155,7 +156,7 @@ textarea {
 
 .card-glass {
   background: var(--card-glass);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(18px) saturate(155%);
 }
 
 .btn {
