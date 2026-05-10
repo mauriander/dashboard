@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Mauriander</title>
+  <desc id="desc">Logo monograma Mauriander</desc>
+  <rect width="512" height="512" rx="112" fill="#0f1a2f"/>
+  <circle cx="394" cy="118" r="48" fill="#f4c542"/>
+  <path
+    d="M96 364V148h58l102 126 102-126h58v216h-62V244l-80 96h-36l-80-96v120H96Z"
+    fill="#f8fafc"
+  />
+  <path
+    d="M96 408h320"
+    fill="none"
+    stroke="#f4c542"
+    stroke-linecap="round"
+    stroke-width="28"
+  />
+</svg>

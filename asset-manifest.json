@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/dashboard/static/css/main.2b08982a.css",
-    "main.js": "/dashboard/static/js/main.4bc13c3b.js",
+    "main.css": "/dashboard/static/css/main.46d9511c.css",
+    "main.js": "/dashboard/static/js/main.0e924436.js",
     "static/js/453.dab362cc.chunk.js": "/dashboard/static/js/453.dab362cc.chunk.js",
     "index.html": "/dashboard/index.html",
     "static/media/bus-svgrepo-com.svg": "/dashboard/static/media/bus-svgrepo-com.ba5f404dc8585d5a36036b341239c568.svg",
-    "main.2b08982a.css.map": "/dashboard/static/css/main.2b08982a.css.map",
-    "main.4bc13c3b.js.map": "/dashboard/static/js/main.4bc13c3b.js.map",
+    "main.46d9511c.css.map": "/dashboard/static/css/main.46d9511c.css.map",
+    "main.0e924436.js.map": "/dashboard/static/js/main.0e924436.js.map",
     "453.dab362cc.chunk.js.map": "/dashboard/static/js/453.dab362cc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2b08982a.css",
-    "static/js/main.4bc13c3b.js"
+    "static/css/main.46d9511c.css",
+    "static/js/main.0e924436.js"
   ]
 }
